@@ -233,7 +233,7 @@
 
         function downloadImage() {
             const menu = document.getElementById('pickdownMenu');
-            const selectedOption = menu.options[menu.selectedIndex].text;
+            const selectedOption = options[menu.selectedIndex];
             const inputText = document.getElementById('inputText').value;
             const imageUpload = document.getElementById('imageUpload');
             const downloadCanvas = document.createElement('canvas');
