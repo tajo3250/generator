@@ -183,6 +183,9 @@
             const imageUpload = document.getElementById('imageUpload');
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
+            
+            let tempCanvas = document.createElement('canvas');
+            let tempCtx = tempCanvas.getContext('2d');
 
             if (imageUpload.files && imageUpload.files[0]) {
                 const reader = new FileReader();
