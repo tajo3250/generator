@@ -190,16 +190,16 @@
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     let backgroundImg = new Image();
                     backgroundImg.onload = function () {
-                        ctx.save();
-                        ctx.lineWidth = 18;
-                        ctx.strokeStyle = 'black';
                         ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
-                        ctx.strokeRect(0, 0, canvas.width, canvas.height);
-                        ctx.restore();
 
                         let img = new Image();
                         img.onload = function () {
+                            ctx.save();
+                            ctx.lineWidth = 18;
+                            ctx.strokeStyle = 'black';
                             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            ctx.strokeRect(0, 0, canvas.width, canvas.height);
+                            ctx.restore();
 
                             // Set the font properties
                             ctx.font = '220px "Lilita One"';
