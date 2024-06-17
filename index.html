@@ -199,9 +199,9 @@
                             ctx.shadowBlur = 0;
                             ctx.shadowOffsetX = 0;
 
-                            const ratio = average(canvas.width/img.width, canvas.height/img.height)
-                            const width = img.width * ratio
-                            const height = img.height * ratio
+                            const ratio = (canvas.width/img.width + canvas.height/img.height) / 2
+                            const width = img.width * 2 * ratio
+                            const height = img.height * 2 * ratio
                             ctx.drawImage(img, -width/4, height/4, width, height);
 
                             // Set the font properties
