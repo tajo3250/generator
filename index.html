@@ -209,6 +209,7 @@
                             ctx.shadowColor = 'rgba(0, 0, 0, 1)';
                             ctx.shadowOffsetY = 2.5;
 
+                            console.log(selectedOption.notreallyability);
                             if (!selectedOption.notreallyability) {
                                 ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ABILITY`, canvas.width / 2, canvas.height / 5.87);
                                 ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ABILITY`, canvas.width / 2, canvas.height / 5.87);
