@@ -194,12 +194,11 @@
 
                         let img = new Image();
                         img.onload = function () {
-                            ctx.save();
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
                             ctx.lineWidth = 18;
                             ctx.strokeStyle = 'black';
-                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                             ctx.strokeRect(0, 0, canvas.width, canvas.height);
-                            ctx.restore();
 
                             // Set the font properties
                             ctx.font = '220px "Lilita One"';
@@ -219,9 +218,7 @@
                             ctx.fillText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height / 7.15); // Filled text
 
                             ctx.font = '60px "Lilita One"';
-                            ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
                             ctx.lineWidth = 6;
-                            ctx.shadowColor = 'rgba(0, 0, 0, 1)';
                             ctx.shadowOffsetY = 5;
 
                             if (!selectedOption.notreallyability) {
@@ -231,6 +228,9 @@
                                 ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD`, canvas.width / 2, canvas.height / 5.87);
                                 ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD`, canvas.width / 2, canvas.height / 5.87);
                             }
+
+                            ctx.lineWidth = 0;
+                            ctx.shadowOffsetY = 0;
 
                             let overlayImg = new Image();
                             overlayImg.onload = function () {
