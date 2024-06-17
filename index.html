@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Generator</title>
+    <style>
+        body {
+            font-family: 'Lilita One';
+            background-color: #f0f8ff;
+            display: flex;
+            margin: 0;
+            height: 100vh;
+        }
+
+        .left-container {
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .right-container {
+            width: 60%;
+            background-color: #d3d3d3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        select, input {
+            border: 2px solid #ff69b4;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #fff0f5;
+            color: #ff1493;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        select {
+            margin-bottom: 3px;
+        }
+
+        input {
+            margin-bottom: 12px;
+        }
+
+        select:hover, input:hover {
+            background-color: #ffe4e1;
+        }
+
+        .output {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #ff1493;
+        }
+
+        .canvas-container {
+            width: 20%;
+            height: auto;
+            aspect-ratio: 1 / 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border: 2px solid #ff69b4;
+            border-radius: 12px;
+            background-color: white;
+        }
+
+        button {
+            border: 2px solid #89bfe0;
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #a2d4f2;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #b8dcf2;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                families: ['Lilita One']
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="left-container">
+        <div class="container">
+            <select id="pickdownMenu">
+                <option value="Option 1">Option 1</option>
+                <option value="Option 2">Option 2</option>
+                <option value="Option 3">Option 3</option>
+                <option value="Option 4">Option 4</option>
+                <option value="Option 5">Option 5</option>
+                <option value="Option 6">Option 6</option>
+                <option value="Option 7">Option 7</option>
+                <option value="Option 8">Option 8</option>
+                <option value="Option 9">Option 9</option>
+                <option value="Option 10">Option 10</option>
+                <option value="Option 11">Option 11</option>
+                <option value="Option 12">Option 12</option>
+                <option value="Option 13">Option 13</option>
+                <option value="Option 14">Option 14</option>
+            </select>
+            <br>
+            <input type="text" id="inputText" placeholder="Enter text (max 20 chars)" maxlength="20">
+            <br>
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+            <button id="customUploadButton">Upload Image</button>
+            <button onclick="downloadImage()">Download Image</button>
+            <div class="output" id="output"></div>
+        </div>
+    </div>
+    <div class="right-container">
+        <div class="canvas-container">
+            <canvas id="canvas" width="512" height="1024"></canvas>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('customUploadButton').addEventListener('click', function() {
+            document.getElementById('imageUpload').click();
+        });
+
+        document.getElementById('imageUpload').addEventListener('change', function() {
+            const fileName = this.files[0].name;
+            displayImageAndText()
+        });
+
+        function displayImageAndText() {
+            const menu = document.getElementById('pickdownMenu');
+            const selectedOption = menu.options[menu.selectedIndex].text;
+            const inputText = document.getElementById('inputText').value;
+            const imageUpload = document.getElementById('imageUpload');
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            if (imageUpload.files && imageUpload.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    let img = new Image();
+                    img.onload = function () {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                        // Set the font properties
+                        ctx.font = '100px "Lilita One"';
+                        ctx.fillStyle = '#ffffff'; // Text color
+
+                        // Outline and shadow styles
+                        ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+                        ctx.lineWidth = 12;
+                        ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+                        ctx.shadowBlur = 0;
+                        ctx.shadowOffsetX = 0;
+                        ctx.shadowOffsetY = 5.5;
+
+                        // Draw the text
+                        ctx.textAlign = 'center';
+                        ctx.strokeText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height/7.2); // Outline
+                        ctx.fillText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height/7.2); // Filled text
+
+                        ctx.font = '30px "Lilita One"';
+                        ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+                        ctx.lineWidth = 3;
+                        ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+                        ctx.shadowOffsetY = 2.5;
+
+                        ctx.strokeText(`150 HP, 275 SHIELD & ABILITY`, canvas.width / 2, canvas.height/5.87);
+                        ctx.fillText(`150 HP, 275 SHIELD & ABILITY`, canvas.width / 2, canvas.height/5.87);
+
+                        let overlayImg = new Image();
+                        overlayImg.onload = function () {
+                            ctx.drawImage(overlayImg, 0, 0, canvas.width, canvas.height);
+                        };
+                        overlayImg.src = 'overlay.png';
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(imageUpload.files[0]);
+            }
+        }
+
+        function downloadImage() {
+            const menu = document.getElementById('pickdownMenu');
+            const selectedOption = menu.options[menu.selectedIndex].text;
+            const inputText = document.getElementById('inputText').value;
+            const imageUpload = document.getElementById('imageUpload');
+            const downloadCanvas = document.createElement('canvas');
+            downloadCanvas.width = 1024;
+            downloadCanvas.height = 2048;
+            const downloadCtx = downloadCanvas.getContext('2d');
+
+            if (imageUpload.files && imageUpload.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    let img = new Image();
+                    img.onload = function () {
+                        downloadCtx.clearRect(0, 0, downloadCanvas.width, downloadCanvas.height); // Clear the canvas
+                        downloadCtx.drawImage(img, 0, 0, downloadCanvas.width, downloadCanvas.height);
+
+                        // Set the font properties
+                        downloadCtx.font = '100px "Lilita One"';
+                        downloadCtx.fillStyle = '#ffffff'; // Text color
+
+                        // Outline and shadow styles
+                        downloadCtx.strokeStyle = 'rgba(0, 0, 0, 1)';
+                        downloadCtx.lineWidth = 5;
+                        downloadCtx.shadowColor = 'rgba(0, 0, 0, 1)';
+                        downloadCtx.shadowBlur = 10;
+                        downloadCtx.shadowOffsetX = 3;
+                        downloadCtx.shadowOffsetY = 3;
+
+                        // Draw the text
+                        downloadCtx.textAlign = 'center';
+                        downloadCtx.strokeText(`${selectedOption}: ${inputText}`, downloadCanvas.width / 2, 120); // Outline
+                        downloadCtx.fillText(`${selectedOption}: ${inputText}`, downloadCanvas.width / 2, 120); // Filled text
+
+                        // Create a link to download the image
+                        const link = document.createElement('a');
+                        link.href = downloadCanvas.toDataURL('image/png');
+                        link.download = 'custom_image.png';
+                        link.click();
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(imageUpload.files[0]);
+            } else {
+                downloadCtx.clearRect(0, 0, downloadCanvas.width, downloadCanvas.height); // Clear the canvas
+                downloadCtx.font = '100px "Lilita One"';
+                downloadCtx.fillStyle = '#ffffff'; // Text color
+
+                // Outline and shadow styles
+                downloadCtx.strokeStyle = 'rgba(0, 0, 0, 1)';
+                downloadCtx.lineWidth = 5;
+                downloadCtx.shadowColor = 'rgba(0, 0, 0, 1)';
+                downloadCtx.shadowBlur = 10;
+                downloadCtx.shadowOffsetX = 3;
+                downloadCtx.shadowOffsetY = 3;
+
+                // Draw the text
+                downloadCtx.textAlign = 'center';
+                downloadCtx.strokeText(`${selectedOption}: ${inputText}`, downloadCanvas.width / 2, 120); // Outline
+                downloadCtx.fillText(`${selectedOption}: ${inputText}`, downloadCanvas.width / 2, 120); // Filled text
+
+                // Create a link to download the image
+                const link = document.createElement('a');
+                link.href = downloadCanvas.toDataURL('image/png');
+                link.download = 'custom_image.png';
+                link.click();
+            }
+        }
+    </script>
+</body>
+</html>
