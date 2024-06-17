@@ -201,8 +201,13 @@
 
                             ctx.drawImage(img, 0, 0, img.width, img.height);
 
+                            let fontsize = 220;
+                            if (inputText.length > 5) {
+                                fontsize = fontsize - (inputText.length - 5) * 20;
+                            }
+
                             // Set the font properties
-                            ctx.font = '220px "Lilita One"';
+                            ctx.font = `${fontsize}px "Lilita One"`;
                             ctx.fillStyle = '#ffffff'; // Text color
 
                             // Outline and shadow styles
