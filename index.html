@@ -192,17 +192,49 @@
                     backgroundImg.onload = function () {
                         ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
 
-                        let img = new Image();
-                        img.onload = function () {
-                            ctx.shadowColor = 'rgba(0, 0, 0, 1)';
-                            ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
-                            ctx.shadowBlur = 0;
-                            ctx.shadowOffsetX = 0;
+                        // Get image data of the transparent image
+                        const imgData = ctx.getImageData(-width/3.5, height/6.8, width, height);
+                        const data = imgData.data;
 
-                            const ratio = (canvas.width/img.width + canvas.height/img.height) / 2
-                            const width = img.width * 2 * ratio
-                            const height = img.height * 2 * ratio
-                            ctx.drawImage(img, -width/3.5, height/6.8, width, height);
+                        // Define edge detection threshold (adjust as needed)
+                        const threshold = 20; // Adjust based on image and desired edge sensitivity
+
+                        // Outline width (half on each side)
+                        const outlineWidth = 6; // Adjust for desired outline thickness (half on each side)
+
+                        // Loop through each pixel and check for transparency change
+                        for (let y = outlineWidth; y < imgData.height - outlineWidth; y++) { // Start and end after outline width
+                            for (let x = outlineWidth; x < imgData.width - outlineWidth; x++) {
+                            const i = (y * imgData.width + x) * 4; // Index of current pixel
+
+                            // Check if current pixel is non-transparent
+                            const isNonTransparent = data[i + 3] > threshold;
+
+                            // Check surrounding pixels for transparency change (edge detection)
+                            const leftTransparent = x === outlineWidth || data[i - 4] <= threshold;
+                            const rightTransparent = x === imgData.width - outlineWidth - 1 || data[i + 4] <= threshold;
+                            const topTransparent = y === outlineWidth || data[i - imgData.width * 4] <= threshold;
+                            const bottomTransparent = y === imgData.height - outlineWidth - 1 || data[i + imgData.width * 4] <= threshold;
+
+                            // If non-transparent pixel borders transparent area, it's an edge
+                            if (isNonTransparent && (leftTransparent || rightTransparent || topTransparent || bottomTransparent)) {
+                                // Draw outline pixels (modify existing canvas)
+                                for (let offsetY = -outlineWidth; offsetY <= outlineWidth; offsetY++) {
+                                for (let offsetX = -outlineWidth; offsetX <= outlineWidth; offsetX++) {
+                                    const outlineIndex = ((y + offsetY) * imgData.width + (x + offsetX)) * 4;
+                                    // Set outline pixels to black (adjust as needed)
+                                    data[outlineIndex] = 0; // Alpha
+                                    data[outlineIndex + 1] = 0; // Red
+                                    data[outlineIndex + 2] = 0; // Green
+                                    data[outlineIndex + 3] = 255; // Blue (opaque black)
+                                }
+                                }
+                            }
+                            }
+                        }
+
+                        // Update the canvas with the image and outline
+                        ctx.putImageData(imgData, -width/3.5, height/6.8);
 
                             // Set the font properties
                             ctx.font = '220px "Lilita One"';
