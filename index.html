@@ -239,7 +239,7 @@
             const downloadCanvas = document.createElement('canvas');
             downloadCanvas.width = 1024;
             downloadCanvas.height = 2048;
-            const downloadCtx = downloadCanvas.getContext('2d');
+            const ctx = downloadCanvas.getContext('2d');
 
             if (imageUpload.files && imageUpload.files[0]) {
                 const reader = new FileReader();
