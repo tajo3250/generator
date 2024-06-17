@@ -199,12 +199,12 @@
                             ctx.shadowBlur = 0;
                             ctx.shadowOffsetX = 0;
 
-                            let width = canvas.width
-                            let height = canvas.height
-                            ctx.drawImage(img, width/4, 0, width/2, height);
-                            width = canvas.width * 1.1
-                            height = canvas.height * 1.1
-                            ctx.drawImage(img, width/4, 0, width/2, height);
+                            let width = canvas.width * 2
+                            let height = canvas.height * 2
+                            ctx.drawImage(img, -width/4, height/2, width, height);
+                            width = canvas.width * 1.1 * 2
+                            height = canvas.height * 1.1 * 2
+                            ctx.drawImage(img, -width/4, height/2, width, height);
 
                             // Set the font properties
                             ctx.font = '220px "Lilita One"';
