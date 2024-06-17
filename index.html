@@ -140,7 +140,7 @@
             { rarity: 2, ability: "Super Jump", health: 200, shield: 200 },
             { rarity: 2, ability: "Break Builds", health: 125, shield: 175 },
             { rarity: 3, ability: "Lifesteal", health: 225, shield: 75 },
-            { rarity: 3, ability: "Health Boost", health: 600, shield: 0 },
+            { rarity: 3, ability: "Health Boost", health: 600, shield: 0 , notreallyability: true },
             { rarity: 3, ability: "Extra DMG - Distance", health: 120, shield: 120 },
             { rarity: 4, ability: "Stun Nearest Enemy", health: 250, shield: 100 },
             { rarity: 4, ability: "Fast Speed / Sprint", health: 125, shield: 275 },
@@ -209,9 +209,13 @@
                             ctx.shadowColor = 'rgba(0, 0, 0, 1)';
                             ctx.shadowOffsetY = 2.5;
 
-                            // Draw additional text using selected option data
-                            ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ${selectedOption.ability}`, canvas.width / 2, canvas.height / 5.87);
-                            ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ${selectedOption.ability}`, canvas.width / 2, canvas.height / 5.87);
+                            if (!notreallyability) {
+                                ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ABILITY`, canvas.width / 2, canvas.height / 5.87);
+                                ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ABILITY`, canvas.width / 2, canvas.height / 5.87);
+                            } else {
+                                ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD`, canvas.width / 2, canvas.height / 5.87);
+                                ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD`, canvas.width / 2, canvas.height / 5.87);
+                            }
 
                             let overlayImg = new Image();
                             overlayImg.onload = function () {
