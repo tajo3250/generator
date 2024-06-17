@@ -237,7 +237,7 @@
                         };
                         img.src = e.target.result;
                     };
-                    backgroundImg.src = `rarity${selectedOption.rarity + 1}.png`;
+                    backgroundImg.src = `rarity${selectedOption.rarity}.png`;
                 };
                 reader.readAsDataURL(imageUpload.files[0]);
             }
@@ -251,7 +251,7 @@
             const canvas = document.getElementById('canvas');
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/png');
-            link.download = `${menu.selectedIndex}.png`;
+            link.download = `${menu.selectedIndex + 1}.png`;
             link.click();
         }
     </script>
