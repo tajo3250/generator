@@ -208,7 +208,6 @@
                             ctx.shadowColor = 'rgba(0, 0, 0, 1)';
                             ctx.shadowOffsetY = 2.5;
 
-                            console.log(selectedOption.notreallyability);
                             if (!selectedOption.notreallyability) {
                                 ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ABILITY`, canvas.width / 2, canvas.height / 5.87);
                                 ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ABILITY`, canvas.width / 2, canvas.height / 5.87);
@@ -236,10 +235,10 @@
             const selectedOption = options[menu.selectedIndex];
             const inputText = document.getElementById('inputText').value;
             const imageUpload = document.getElementById('imageUpload');
-            const downloadCanvas = document.createElement('canvas');
-            downloadCanvas.width = 1024;
-            downloadCanvas.height = 2048;
-            const ctx = downloadCanvas.getContext('2d');
+            const canvas = document.createElement('canvas');
+            canvas.width = 1024;
+            canvas.height = 2048;
+            const ctx = canvas.getContext('2d');
 
             if (imageUpload.files && imageUpload.files[0]) {
                 const reader = new FileReader();
@@ -276,7 +275,6 @@
                             ctx.shadowColor = 'rgba(0, 0, 0, 1)';
                             ctx.shadowOffsetY = 2.5;
 
-                            console.log(selectedOption.notreallyability);
                             if (!selectedOption.notreallyability) {
                                 ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ABILITY`, canvas.width / 2, canvas.height / 5.87);
                                 ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ABILITY`, canvas.width / 2, canvas.height / 5.87);
