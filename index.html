@@ -176,51 +176,53 @@
             if (imageUpload.files && imageUpload.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    let img = new Image();
-                    img.onload = function () {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                        // Set the font properties
-                        ctx.font = '100px "Lilita One"';
-                        ctx.fillStyle = '#ffffff'; // Text color
+                    let backgroundImg = new Image();
+                    backgroundImg.onload = function () {
+                        ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
 
-                        // Outline and shadow styles
-                        ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
-                        ctx.lineWidth = 12;
-                        ctx.shadowColor = 'rgba(0, 0, 0, 1)';
-                        ctx.shadowBlur = 0;
-                        ctx.shadowOffsetX = 0;
-                        ctx.shadowOffsetY = 5.5;
+                        let img = new Image();
+                        img.onload = function () {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                        // Draw the text
-                        ctx.textAlign = 'center';
-                        ctx.strokeText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height / 7.2); // Outline
-                        ctx.fillText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height / 7.2); // Filled text
+                            // Set the font properties
+                            ctx.font = '100px "Lilita One"';
+                            ctx.fillStyle = '#ffffff'; // Text color
 
-                        ctx.font = '30px "Lilita One"';
-                        ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
-                        ctx.lineWidth = 3;
-                        ctx.shadowColor = 'rgba(0, 0, 0, 1)';
-                        ctx.shadowOffsetY = 2.5;
+                            // Outline and shadow styles
+                            ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+                            ctx.lineWidth = 12;
+                            ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+                            ctx.shadowBlur = 0;
+                            ctx.shadowOffsetX = 0;
+                            ctx.shadowOffsetY = 5.5;
 
-                        // Draw additional text using selected option data
-                        ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ${selectedOption.ability}`, canvas.width / 2, canvas.height / 5.87);
-                        ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ${selectedOption.ability}`, canvas.width / 2, canvas.height / 5.87);
+                            // Draw the text
+                            ctx.textAlign = 'center';
+                            ctx.strokeText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height / 7.2); // Outline
+                            ctx.fillText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height / 7.2); // Filled text
 
-                        let backgroundImg = new Image();
-                        backgroundImg.onload = function () {
-                            ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+                            ctx.font = '30px "Lilita One"';
+                            ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+                            ctx.lineWidth = 3;
+                            ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+                            ctx.shadowOffsetY = 2.5;
+
+                            // Draw additional text using selected option data
+                            ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ${selectedOption.ability}`, canvas.width / 2, canvas.height / 5.87);
+                            ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ${selectedOption.ability}`, canvas.width / 2, canvas.height / 5.87);
+
+                            let overlayImg = new Image();
+                            overlayImg.onload = function () {
+                                ctx.drawImage(overlayImg, 0, 0, canvas.width, canvas.height);
+                            };
+                            overlayImg.src = 'overlay.png';
                         };
-                        backgroundImg.src = `rarity${selectedOption.rarity}.png`;
-
-                        let overlayImg = new Image();
-                        overlayImg.onload = function () {
-                            ctx.drawImage(overlayImg, 0, 0, canvas.width, canvas.height);
-                        };
-                        overlayImg.src = 'overlay.png';
+                        img.src = e.target.result;
                     };
-                    img.src = e.target.result;
+                    backgroundImg.src = `rarity${selectedOption.rarity}.png`;
+
                 };
                 reader.readAsDataURL(imageUpload.files[0]);
             }
