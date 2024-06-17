@@ -63,7 +63,7 @@
         }
 
         .canvas-container {
-            width: 1024px;
+            width: 512px;
             height: auto;
             aspect-ratio: 1 / 2;
             display: flex;
@@ -236,71 +236,10 @@
             const inputText = document.getElementById('inputText').value;
             const imageUpload = document.getElementById('imageUpload');
             const canvas = document.getElementById('canvas');
-            canvas.width = 1024;
-            canvas.height = 2048;
-            const ctx = canvas.getContext('2d');
-
-            if (imageUpload.files && imageUpload.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    let backgroundImg = new Image();
-                    backgroundImg.onload = function () {
-                        ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
-
-                        let img = new Image();
-                        img.onload = function () {
-                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                            // Set the font properties
-                            ctx.font = '100px "Lilita One"';
-                            ctx.fillStyle = '#ffffff'; // Text color
-
-                            // Outline and shadow styles
-                            ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
-                            ctx.lineWidth = 12;
-                            ctx.shadowColor = 'rgba(0, 0, 0, 1)';
-                            ctx.shadowBlur = 0;
-                            ctx.shadowOffsetX = 0;
-                            ctx.shadowOffsetY = 5.5;
-
-                            // Draw the text
-                            ctx.textAlign = 'center';
-                            ctx.strokeText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height / 7.2); // Outline
-                            ctx.fillText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height / 7.2); // Filled text
-
-                            ctx.font = '30px "Lilita One"';
-                            ctx.lineWidth = 3;
-                            ctx.shadowOffsetY = 2.5;
-
-                            if (!selectedOption.notreallyability) {
-                                ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ABILITY`, canvas.width / 2, canvas.height / 5.87);
-                                ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ABILITY`, canvas.width / 2, canvas.height / 5.87);
-                            } else {
-                                ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD`, canvas.width / 2, canvas.height / 5.87);
-                                ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD`, canvas.width / 2, canvas.height / 5.87);
-                            }
-
-                            ctx.lineWidth = 0;
-                            ctx.shadowOffsetY = 0;
-
-                            let overlayImg = new Image();
-                            overlayImg.onload = function () {
-                                ctx.drawImage(overlayImg, 0, 0, canvas.width, canvas.height);
-
-                                const link = document.createElement('a');
-                                link.href = canvas.toDataURL('image/png');
-                                link.download = `${menu.selectedIndex}.png`;
-                                link.click();
-                            };
-                            overlayImg.src = 'overlay.png';
-                        };
-                        img.src = e.target.result;
-                    };
-                    backgroundImg.src = `rarity${selectedOption.rarity}.png`;
-                };
-                reader.readAsDataURL(imageUpload.files[0]);
-            }
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = `${menu.selectedIndex}.png`;
+            link.click();
         }
     </script>
 </body>
