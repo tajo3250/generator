@@ -108,20 +108,6 @@
     <div class="left-container">
         <div class="container">
             <select id="pickdownMenu">
-                <option value="Option 1">Option 1</option>
-                <option value="Option 2">Option 2</option>
-                <option value="Option 3">Option 3</option>
-                <option value="Option 4">Option 4</option>
-                <option value="Option 5">Option 5</option>
-                <option value="Option 6">Option 6</option>
-                <option value="Option 7">Option 7</option>
-                <option value="Option 8">Option 8</option>
-                <option value="Option 9">Option 9</option>
-                <option value="Option 10">Option 10</option>
-                <option value="Option 11">Option 11</option>
-                <option value="Option 12">Option 12</option>
-                <option value="Option 13">Option 13</option>
-                <option value="Option 14">Option 14</option>
             </select>
             <br>
             <input type="text" id="inputText" placeholder="Enter text (max 20 chars)" maxlength="20">
@@ -148,9 +134,38 @@
             displayImageAndText()
         });
 
+        const options = [
+            { rarity: 1, ability: "Double Pump", health: 150, shield: 150 },
+            { rarity: 2, ability: "Mythic Items", health: 120, shield: 120 },
+            { rarity: 2, ability: "Super Jump", health: 200, shield: 200 },
+            { rarity: 2, ability: "Break Builds", health: 125, shield: 175 },
+            { rarity: 3, ability: "Lifesteal", health: 225, shield: 75 },
+            { rarity: 3, ability: "Health Boost", health: 600, shield: 0 },
+            { rarity: 3, ability: "Extra DMG - Distance", health: 120, shield: 120 },
+            { rarity: 4, ability: "Stun Nearest Enemy", health: 250, shield: 100 },
+            { rarity: 4, ability: "Fast Speed / Sprint", health: 125, shield: 275 },
+            { rarity: 4, ability: "Damage Players Around", health: 300, shield: 100 },
+            { rarity: 4, ability: "Extra Damage / Lifesteal", health: 200, shield: 200 },
+            { rarity: 5, ability: "Stats UPG per Elimination", health: 150, shield: 275 },
+            { rarity: 5, ability: "Extra Damage / Slow All", health: 200, shield: 225 },
+            { rarity: 5, ability: "Hold Item -> invis / Speed", health: 225, shield: 200 }
+        ];
+
+        function populateOptions() {
+            const pickdownMenu = document.getElementById('pickdownMenu');
+            options.forEach((option, index) => {
+                const optionText = `${option.ability}: ${option.health} HP, ${option.shield} SHIELD & ${option.ability}`;
+                const optionElement = document.createElement('option');
+                optionElement.value = index;
+                optionElement.textContent = optionText;
+                pickdownMenu.appendChild(optionElement);
+            });
+        }
+
         function displayImageAndText() {
-            const menu = document.getElementById('pickdownMenu');
-            const selectedOption = menu.options[menu.selectedIndex].text;
+            const pickdownMenu = document.getElementById('pickdownMenu');
+            const selectedOptionIndex = pickdownMenu.value;
+            const selectedOption = options[selectedOptionIndex];
             const inputText = document.getElementById('inputText').value;
             const imageUpload = document.getElementById('imageUpload');
             const canvas = document.getElementById('canvas');
@@ -178,8 +193,8 @@
 
                         // Draw the text
                         ctx.textAlign = 'center';
-                        ctx.strokeText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height/7.2); // Outline
-                        ctx.fillText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height/7.2); // Filled text
+                        ctx.strokeText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height / 7.2); // Outline
+                        ctx.fillText(`${inputText.toUpperCase()}`, canvas.width / 2, canvas.height / 7.2); // Filled text
 
                         ctx.font = '30px "Lilita One"';
                         ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
@@ -187,8 +202,15 @@
                         ctx.shadowColor = 'rgba(0, 0, 0, 1)';
                         ctx.shadowOffsetY = 2.5;
 
-                        ctx.strokeText(`150 HP, 275 SHIELD & ABILITY`, canvas.width / 2, canvas.height/5.87);
-                        ctx.fillText(`150 HP, 275 SHIELD & ABILITY`, canvas.width / 2, canvas.height/5.87);
+                        // Draw additional text using selected option data
+                        ctx.strokeText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ${selectedOption.ability}`, canvas.width / 2, canvas.height / 5.87);
+                        ctx.fillText(`${selectedOption.health} HP, ${selectedOption.shield} SHIELD & ${selectedOption.ability}`, canvas.width / 2, canvas.height / 5.87);
+
+                        let backgroundImg = new Image();
+                        backgroundImg.onload = function () {
+                            ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+                        };
+                        backgroundImg.src = `rarity${selectedOption.rarity}.png`;
 
                         let overlayImg = new Image();
                         overlayImg.onload = function () {
