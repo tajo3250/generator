@@ -199,7 +199,21 @@
                             ctx.shadowBlur = 0;
                             ctx.shadowOffsetX = 0;
 
-                            ctx.drawImage(img, -cavnas.width/4, canvas.height, canvas.width, canvas.height);
+                            const offset = 10; // Offset for the outline
+
+                            // Draw the black outline image
+                            ctx.drawImage(img, -offset, -offset, canvas.width + offset * 2, canvas.height + offset * 2);
+
+                            // Set the composite operation to source-in to make the image fully black
+                            ctx.globalCompositeOperation = 'source-in';
+                            ctx.fillStyle = 'black';
+                            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                            // Reset the composite operation to default
+                            ctx.globalCompositeOperation = 'source-over';
+
+                            // Draw the original image on top
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
                             // Set the font properties
                             ctx.font = '220px "Lilita One"';
