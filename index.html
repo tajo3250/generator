@@ -290,7 +290,7 @@
                             overlayImg.src = 'overlay.png';
 
                             const link = document.createElement('a');
-                            link.href = downloadCanvas.toDataURL('image/png');
+                            link.href = canvas.toDataURL('image/png');
                             link.download = `${menu.selectedIndex}.png`;
                             link.click();
                         };
