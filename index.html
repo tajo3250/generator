@@ -237,7 +237,7 @@
                         };
                         img.src = e.target.result;
                     };
-                    backgroundImg.src = `rarity${selectedOption.rarity}.png`;
+                    backgroundImg.src = `rarity${selectedOption.rarity + 1}.png`;
                 };
                 reader.readAsDataURL(imageUpload.files[0]);
             }
