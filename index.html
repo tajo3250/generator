@@ -183,9 +183,6 @@
             const imageUpload = document.getElementById('imageUpload');
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
-            
-            let tempCanvas = document.createElement('canvas');
-            let tempCtx = tempCanvas.getContext('2d');
 
             if (imageUpload.files && imageUpload.files[0]) {
                 const reader = new FileReader();
@@ -202,91 +199,7 @@
                             ctx.shadowBlur = 0;
                             ctx.shadowOffsetX = 0;
 
-                            const ratio = (canvas.width/img.width + canvas.height/img.height) / 2
-                            const width = img.width * 2 * ratio
-                            const height = img.height * 2 * ratio
-
-                            tempCanvas.width = img.width;
-                            tempCanvas.height = img.height;
-                            tempCtx.drawImage(img, 0, 0);
-
-                            // Get the image data from the temporary canvas
-                            let imageData = tempCtx.getImageData(0, 0, img.width, img.height);
-                            let data = imageData.data;
-
-                            // Create an empty canvas for the edges
-                            let edges = tempCtx.createImageData(imageData);
-
-                            // Sobel operator kernels
-                            let sobelX = [
-                                [-1, 0, 1],
-                                [-2, 0, 2],
-                                [-1, 0, 1]
-                            ];
-
-                            let sobelY = [
-                                [-1, -2, -1],
-                                [0, 0, 0],
-                                [1, 2, 1]
-                            ];
-
-                            function getPixel(x, y, i) {
-                                return data[((y * img.width) + x) * 4 + i];
-                            }
-
-                            function setPixel(x, y, i, val) {
-                                edges.data[((y * img.width) + x) * 4 + i] = val;
-                            }
-
-                            for (let y = 1; y < img.height - 1; y++) {
-                                for (let x = 1; x < img.width - 1; x++) {
-                                    let pixelX = (
-                                        (sobelX[0][0] * getPixel(x - 1, y - 1, 3)) +
-                                        (sobelX[0][1] * getPixel(x, y - 1, 3)) +
-                                        (sobelX[0][2] * getPixel(x + 1, y - 1, 3)) +
-                                        (sobelX[1][0] * getPixel(x - 1, y, 3)) +
-                                        (sobelX[1][1] * getPixel(x, y, 3)) +
-                                        (sobelX[1][2] * getPixel(x + 1, y, 3)) +
-                                        (sobelX[2][0] * getPixel(x - 1, y + 1, 3)) +
-                                        (sobelX[2][1] * getPixel(x, y + 1, 3)) +
-                                        (sobelX[2][2] * getPixel(x + 1, y + 1, 3))
-                                    );
-
-                                    let pixelY = (
-                                        (sobelY[0][0] * getPixel(x - 1, y - 1, 3)) +
-                                        (sobelY[0][1] * getPixel(x, y - 1, 3)) +
-                                        (sobelY[0][2] * getPixel(x + 1, y - 1, 3)) +
-                                        (sobelY[1][0] * getPixel(x - 1, y, 3)) +
-                                        (sobelY[1][1] * getPixel(x, y, 3)) +
-                                        (sobelY[1][2] * getPixel(x + 1, y, 3)) +
-                                        (sobelY[2][0] * getPixel(x - 1, y + 1, 3)) +
-                                        (sobelY[2][1] * getPixel(x, y + 1, 3)) +
-                                        (sobelY[2][2] * getPixel(x + 1, y + 1, 3))
-                                    );
-
-                                    let magnitude = Math.sqrt((pixelX * pixelX) + (pixelY * pixelY)) >>> 0;
-                                    let threshold = 10; // adjust this value to fine-tune edge detection
-
-                                    if (magnitude > threshold) {
-                                        setPixel(x, y, 0, 0); // R
-                                        setPixel(x, y, 1, 0); // G
-                                        setPixel(x, y, 2, 0); // B
-                                        setPixel(x, y, 3, 255); // A
-                                    } else {
-                                        setPixel(x, y, 0, 0);
-                                        setPixel(x, y, 1, 0);
-                                        setPixel(x, y, 2, 0);
-                                        setPixel(x, y, 3, 0);
-                                    }
-                                }
-                            }
-
-                            // Draw the edges on the original canvas
-                            let edgeImage = new Image();
-                            edgeImage.src = tempCanvas.toDataURL();
-                            edgeImage.onload = function() {
-                                ctx.drawImage(edgeImage, -width / 3.5, height / 6.8, width, height);
-                            };
+                            ctx.drawImage(img, 0, 0, img.width, img.height);
 
                             // Set the font properties
                             ctx.font = '220px "Lilita One"';
