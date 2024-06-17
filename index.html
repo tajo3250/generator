@@ -176,14 +176,13 @@
             if (imageUpload.files && imageUpload.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                     let backgroundImg = new Image();
                     backgroundImg.onload = function () {
                         ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
 
                         let img = new Image();
                         img.onload = function () {
-                            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
                             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
                             // Set the font properties
@@ -227,7 +226,6 @@
                         img.src = e.target.result;
                     };
                     backgroundImg.src = `rarity${selectedOption.rarity}.png`;
-
                 };
                 reader.readAsDataURL(imageUpload.files[0]);
             }
