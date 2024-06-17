@@ -194,22 +194,21 @@
 
                         let img = new Image();
                         img.onload = function () {
-                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+                            ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+                            ctx.shadowBlur = 0;
+                            ctx.shadowOffsetX = 0;
 
-                            ctx.lineWidth = 18;
-                            ctx.strokeStyle = 'black';
-                            ctx.strokeRect(0, 0, canvas.width, canvas.height);
+                            ctx.shadowOffsetY = 12;
+
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
                             // Set the font properties
                             ctx.font = '220px "Lilita One"';
                             ctx.fillStyle = '#ffffff'; // Text color
 
                             // Outline and shadow styles
-                            ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
                             ctx.lineWidth = 24;
-                            ctx.shadowColor = 'rgba(0, 0, 0, 1)';
-                            ctx.shadowBlur = 0;
-                            ctx.shadowOffsetX = 0;
                             ctx.shadowOffsetY = 12;
 
                             // Draw the text
