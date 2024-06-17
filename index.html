@@ -265,7 +265,7 @@
                                     );
 
                                     let magnitude = Math.sqrt((pixelX * pixelX) + (pixelY * pixelY)) >>> 0;
-                                    let threshold = 50; // adjust this value to fine-tune edge detection
+                                    let threshold = 10; // adjust this value to fine-tune edge detection
 
                                     if (magnitude > threshold) {
                                         setPixel(x, y, 0, 0); // R
