@@ -154,7 +154,7 @@
         function populateOptions() {
             const pickdownMenu = document.getElementById('pickdownMenu');
             options.forEach((option, index) => {
-                const optionText = `${option.ability}: ${option.health} HP, ${option.shield} SHIELD & ${option.ability}`;
+                const optionText = `${option.ability}`;
                 const optionElement = document.createElement('option');
                 optionElement.value = index;
                 optionElement.textContent = optionText;
