@@ -200,9 +200,9 @@
                             ctx.shadowOffsetX = 0;
 
                             const ratio = average(canvas.width/img.width, canvas.height/img.height)
-                            const width = img.width * 2 * ratio
-                            const height = img.height * 2 * ratio
-                            ctx.drawImage(img, -width/4, 0, width, height);
+                            const width = img.width * ratio
+                            const height = img.height * ratio
+                            ctx.drawImage(img, -width/4, height/4, width, height);
 
                             // Set the font properties
                             ctx.font = '220px "Lilita One"';
